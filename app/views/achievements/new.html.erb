@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-6 offset-md-3">
+      <h1 class="text-center">Nuevo Registro</h1>
+      <%= turbo_frame_tag 'new_achievement_form' do %>
+        <%= render 'form', achievement: @achievement %>
+      <% end %>
+    </div>
+  </div>
+</div

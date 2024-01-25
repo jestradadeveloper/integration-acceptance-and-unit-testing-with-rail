@@ -76,3 +76,5 @@ end
 gem 'cssbundling-rails'
 
 gem "jsbundling-rails", "~> 1.3"
+
+gem "simple_form", "~> 5.3"

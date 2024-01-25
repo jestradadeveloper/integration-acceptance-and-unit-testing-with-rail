@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  resources :achievement, only: %i[create update]
+  resources :achievements, only: %i[new create update show]
   root 'welcome#index'
 end

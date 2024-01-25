@@ -1,0 +1,21 @@
+<%= simple_form_for @achievement, html: { class: 'form',data: { turbo: false } } do |f| %>
+  <div class="mb-3">
+    <%= f.input :title , input_html: { class: 'form-control' } %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :description, label: 'Description' , as: :text, input_html: { class:'form-control' } %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :privacy, collection: ['Public', 'Private' , 'Restringida' ], include_blank: 'Privacy' ,
+      label: 'Privacy' , input_html: { class: 'form-select' } %>
+  </div>
+  <div class="mb-3 form-check">
+    <%= f.input :featured, as: :boolean, label: 'Featured achievement' , input_html: { class: 'form-check-input' } %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :cover_image, as: :file, label: 'Cover image' ,input_html: { class: 'form-control-file mb-3' } %>
+  </div>
+  <div class="mb-3 actions">
+    <%= f.submit class: 'btn btn-primary' %>
+  </div>
+  <% end %>
