@@ -11,6 +11,6 @@ feature 'achievement page' do
     visit("/achievements/#{achievement.id}")
 
     # Verificar que el contenido Markdown se ha convertido a HTML y se muestra correctamente
-    expect(page).to have_text('That *was* hard')
+    expect(page).to have_css('em', text: 'was')
   end
 end

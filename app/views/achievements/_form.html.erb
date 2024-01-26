@@ -6,7 +6,7 @@
     <%= f.input :description, label: 'Description' , as: :text, input_html: { class:'form-control' } %>
   </div>
   <div class="mb-3">
-    <%= f.input :privacy, collection: ['Public', 'Private' , 'Restringida' ], include_blank: 'Privacy' ,
+    <%= f.input :privacy, collection: Achievement.privacies.map { |key, value| [key.humanize.split.first, key] }, include_blank: 'Privacy' ,
       label: 'Privacy' , input_html: { class: 'form-select' } %>
   </div>
   <div class="mb-3 form-check">

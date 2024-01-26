@@ -54,6 +54,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'spring'
+  gem 'spring-commands-cucumber'
   gem 'spring-commands-rspec'
 end
 
@@ -70,11 +71,15 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
 end
 
 # css bundleing
 gem 'cssbundling-rails'
 
-gem "jsbundling-rails", "~> 1.3"
+gem 'jsbundling-rails', '~> 1.3'
 
-gem "simple_form", "~> 5.3"
+gem 'simple_form', '~> 5.3'
+
+gem 'redcarpet', '~> 3.6'
