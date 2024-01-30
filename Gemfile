@@ -83,3 +83,5 @@ gem 'jsbundling-rails', '~> 1.3'
 gem 'simple_form', '~> 5.3'
 
 gem 'redcarpet', '~> 3.6'
+
+gem "rails-controller-testing", "~> 1.0"
