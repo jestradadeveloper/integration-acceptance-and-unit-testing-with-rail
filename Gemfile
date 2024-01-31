@@ -85,3 +85,5 @@ gem 'simple_form', '~> 5.3'
 gem 'redcarpet', '~> 3.6'
 
 gem "rails-controller-testing", "~> 1.0"
+
+gem "devise", "~> 4.9"
