@@ -2,36 +2,40 @@ require 'rails_helper'
 
 RSpec.describe Achievement, type: :model do
   describe 'validations' do
-    it 'requires title' do
-      achievement = Achievement.new(title: '')
-      expect(achievement.valid?).to be_falsy
-    end
-    it 'requires title to be unique for one user' do
-      user = FactoryBot.create(:user)
-      first_achievement = FactoryBot.create(:public_achievement, title: 'First Achievement', user: user)
-      new_achievement = Achievement.new(title: 'First Achievement', user: user)
-      expect(new_achievement.valid?).to be_falsy
-    end
-    it 'allows different users to have achievements with identical titles' do
-      user1 = FactoryBot.create(:user)
-      user2 = FactoryBot.create(:user)
-      first_achievement = FactoryBot.create(:public_achievement, title: 'First Achievement', user: user1)
-      new_achievement = Achievement.new(title: 'First Achievement', user: user2)
-      expect(new_achievement.valid?).to be_truthy
-    end
+    let(:user) { FactoryBot.create(:user) } # Create a user using your FactoryBot definition
 
-    it 'belongs to user' do
-      achievement = Achievement.new(title: 'Some title', user: nil)
-      expect(achievement.valid?).to be_falsy
+    it 'validates uniqueness of title scoped to user' do
+      FactoryBot.create(:achievement, user: user, title: 'Some Title') # Create an achievement for the user
+
+      should validate_uniqueness_of(:title)
+        .scoped_to(:user_id)
+        .with_message("you can't have two achievements with the same title")
+        .ignoring_case_sensitivity # If case-insensitive uniqueness validation is required
     end
-    it 'has belongs_to user association' do
-      # aproach 1
-      user = FactoryBot.create(:user)
-      achievement = FactoryBot.create(:public_achievement, user: user)
-      expect(achievement.user).to eq(user)
-      # aproach 2
-      u = Achievement.reflect_on_association(:user)
-      expect(u.macro).to eq(:belongs_to)
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:user) }
+    it { should belong_to(:user) }
+    it 'converts markdown to html' do
+      achievement = Achievement.new(description: 'Awesome **things** I *did* yesterday')
+      expect(achievement.description_html).to include('<strong>things</strong>')
+      expect(achievement.description_html).to include('<em>did</em>')
+    end
+    it 'has silly title' do
+      achievement = Achievement.new(title: 'New Achievement', user: FactoryBot.create(:user, email: 'test@test.com'))
+      expect(achievement.silly_title).to eq('New Achievement by test@test.com')
+    end
+    it 'only fetches achievements with title starts from provided letter' do
+      achievement1 = FactoryBot.create(:public_achievement, title: 'Read a book', user: user)
+      achievement2 = FactoryBot.create(:public_achievement, title: 'Passed an examp', user: user)
+      expect(Achievement.by_letter('R')).to eq([achievement1])
+    end
+    it 'sorts achievements by user emails' do
+      albert = FactoryBot.create(:user, email: 'albert@test.com')
+      rob = FactoryBot.create(:user, email: 'rob@test.com')
+      achievement1 = FactoryBot.create(:public_achievement, title: 'Read a book', user: rob)
+      achievement2 = FactoryBot.create(:public_achievement, title: 'Rocked it', user: albert)
+
+      expect(Achievement.by_letter("R")).to eq([achievement2,achievement1])
     end
   end
 end
