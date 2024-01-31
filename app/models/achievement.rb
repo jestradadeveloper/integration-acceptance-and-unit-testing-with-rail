@@ -1,9 +1,20 @@
 class Achievement < ApplicationRecord
   belongs_to :user
   validates :title, presence: true
+  validates :user, presence: true
+  validate :unique_title_for_one_user
   enum privacy: { public_access: 0, private_access: 1, friends_access: 2 }
 
   def description_html
     Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(description)
+  end
+
+  private
+
+  def unique_title_for_one_user
+    existing_achievement = Achievement.find_by(title: title)
+    return unless existing_achievement && existing_achievement.user == user
+
+    errors.add(:title, "you can't have two achievements with the same title")
   end
 end

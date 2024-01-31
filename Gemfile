@@ -73,6 +73,7 @@ group :test do
   gem 'capybara'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'shoulda-matchers', require: false
 end
 
 # css bundleing
@@ -84,6 +85,6 @@ gem 'simple_form', '~> 5.3'
 
 gem 'redcarpet', '~> 3.6'
 
-gem "rails-controller-testing", "~> 1.0"
+gem 'rails-controller-testing', '~> 1.0'
 
-gem "devise", "~> 4.9"
+gem 'devise', '~> 4.9'
